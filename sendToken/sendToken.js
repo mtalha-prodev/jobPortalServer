@@ -11,12 +11,16 @@ export const sendToken = async (res, user, statusCode, message) => {
       ),
     };
 
+    console.log(user)
+
     const userData = {
       _id: user._id,
-      name: user.name,
+      firtName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       verified: user.verified,
       role: user.role,
+      username: user.username
     };
 
     res
@@ -24,6 +28,6 @@ export const sendToken = async (res, user, statusCode, message) => {
       .cookie("token", token, options)
       .json({ status: true, message: message, user: userData });
   } catch (error) {
-    res.status(500).json({ status: false, message: error.message });
+    res.status(500).json({ status: false, message: error});
   }
 };

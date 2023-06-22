@@ -7,30 +7,35 @@ const Schema = mongoose.Schema;
 const adminSchema = new Schema({
   username: {
     type: String,
-    required: true,
+    require: true,
     unique: true,
   },
   email: {
     type: String,
-    required: true,
+    require: true,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
+    require: true,
+    select:false
   },
   firstName: {
     type: String,
-    required: true,
+    require: true,
   },
   lastName: {
     type: String,
-    required: true,
+    require: true,
   },
   role: {
     type: String,
     enum: ["admin", "superadmin"],
     default: "admin",
+  },
+  verified:{
+    type: Boolean,
+    default:false
   },
   createdAt: {
     type: Date,
