@@ -7,33 +7,41 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: {
     type: String,
-    required: true,
+    require: true,
     unique: true,
   },
   email: {
     type: String,
-    required: true,
+    require: true,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
+    require: true,
+  },
+  contacNumber: {
+    type: String,
+    require: true,
   },
   firstName: {
     type: String,
-    required: true,
+    require: true,
+   default: "",
   },
   lastName: {
     type: String,
-    required: true,
+    require: true,
+    default: "",
   },
   dateOfBirth: {
     type: Date,
-    required: true,
+    default: "",
+    require: true,
   },
   location: {
     type: String,
-    required: true,
+    require: true,
+    default: "",
   },
   bio: {
     type: String,
@@ -47,23 +55,28 @@ const userSchema = new Schema({
     {
       title: {
         type: String,
-        required: true,
+        require: true,
+        default: "",
       },
       company: {
         type: String,
-        required: true,
+        require: true,
+        default: "",
       },
       startDate: {
         type: Date,
-        required: true,
+        require: true,
+        default: "",
       },
       endDate: {
         type: Date,
-        required: false,
+        require: false,
+        default: "",
       },
       description: {
         type: String,
-        required: false,
+        require: false,
+        default: "",
       },
     },
   ],
@@ -71,27 +84,33 @@ const userSchema = new Schema({
     {
       school: {
         type: String,
-        required: true,
+        require: true,
+        default: "",
       },
       degree: {
         type: String,
-        required: true,
+        require: true,
+        default: "",
       },
       fieldOfStudy: {
         type: String,
-        required: true,
+        require: true,
+        default: "",
       },
       startDate: {
         type: Date,
-        required: true,
+        require: true,
+        default: "",
       },
       endDate: {
         type: Date,
-        required: false,
+        require: false,
+        default: "",
       },
       description: {
         type: String,
-        required: false,
+        require: false,
+        default: "",
       },
     },
   ],
@@ -100,11 +119,12 @@ const userSchema = new Schema({
       jobId: {
         type: Schema.Types.ObjectId,
         ref: "Job",
-        required: true,
+        require: true,
       },
       applicationDate: {
         type: Date,
-        required: true,
+        require: true,
+        default: "",
       },
       status: {
         type: String,
@@ -118,11 +138,12 @@ const userSchema = new Schema({
       jobId: {
         type: Schema.Types.ObjectId,
         ref: "Job",
-        required: true,
+        require: true,
       },
       savedDate: {
         type: Date,
-        required: true,
+        require: true,
+        default: "",
       },
     },
   ],
@@ -140,9 +161,10 @@ const userSchema = new Schema({
   },
 });
 
-// UserSchema.methods.isMatchPassword = async function (password) {
-//   return await bcrypt.compare(password, this.password);
-// };
+
+userSchema.methods.isMatchPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 userSchema.methods.getJwtToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {

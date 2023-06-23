@@ -1,8 +1,9 @@
 export const sendToken = async (res, user, statusCode, message) => {
   try {
+    console.log(user)
     const token = user.getJwtToken();
-
-    // console.log(token);
+// const token = ''
+    console.log(token);
 
     const options = {
       httpOnly: true,
@@ -11,22 +12,13 @@ export const sendToken = async (res, user, statusCode, message) => {
       ),
     };
 
-    console.log(user)
 
-    const userData = {
-      _id: user._id,
-      firtName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      verified: user.verified,
-      role: user.role,
-      username: user.username
-    };
+    
 
     res
       .status(statusCode)
       .cookie("token", token, options)
-      .json({ status: true, message: message, user: userData });
+      .json({ status: true, message: message, user: user});
   } catch (error) {
     res.status(500).json({ status: false, message: error});
   }

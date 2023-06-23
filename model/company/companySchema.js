@@ -1,79 +1,95 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const Schema = mongoose.Schema;
 
 const companySchema = new Schema({
   name: {
     type: String,
-    required: true,
+    require: true,
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    require: true,
+    // unique: true,
   },
   password: {
     type: String,
-    required: true,
+    require: true,
+    select:false,
   },
   address: {
     type: String,
-    required: true,
+    require: true,
+    default:''
   },
   industry: {
     type: String,
-    required: true,
+    require: true,
+    default:''
   },
   website: {
     type: String,
+    default:''
   },
   contactNumber: {
     type: String,
-    required: true,
+    require: true,
   },
   active: {
     type: Boolean,
     default: true,
+    default:false
   },
 
-  company: {
-    type: Schema.Types.ObjectId,
-    ref: "Company",
-    required: true,
-  },
+  // company: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Company",
+  //   // require: true,
+  //   default:"eraflip"
+  // },
   title: {
     type: String,
-    required: true,
+    require: true,
+    default:''
   },
   description: {
     type: String,
-    required: true,
+    require: true,
+    default:''
   },
   requirements: {
     type: [String],
-    required: true,
+    require: true,
+    default:""
   },
   location: {
     type: String,
-    required: true,
+    require: true,
+    default:''
   },
   employmentType: {
     type: String,
     enum: ["full-time", "part-time", "contract", "internship"],
-    required: true,
+    require: true,
+    default:'full-time'
   },
   experienceLevel: {
     type: String,
     enum: ["entry-level", "mid-level", "senior-level"],
-    required: true,
+    require: true,
+    default:'entry-level'
   },
   educationLevel: {
     type: String,
-    required: true,
+    require: true,
+    default:''
   },
   skills: {
     type: [String],
-    required: true,
+    require: true,
+    default:''
   },
   postedAt: {
     type: Date,
@@ -81,7 +97,8 @@ const companySchema = new Schema({
   },
   expiresAt: {
     type: Date,
-    required: true,
+    require: true,
+    default: Date.now,
   },
   isClosed: {
     type: Boolean,
@@ -93,8 +110,19 @@ const companySchema = new Schema({
   },
   role: {
     type: String,
-    default: "user",
+    default: "Company",
   },
 });
+
+
+companySchema.methods.isMatchPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+companySchema.methods.getJwtToken = function () {
+  return jwt.sign({ _id: this._id }, "process.env.JWT_SECRET", {
+    expiresIn: process.env.JWT_COOKIE_EXPIRY * 24 * 60 * 60 * 1000,
+  });
+};
 
 export default mongoose.model("Company", companySchema);

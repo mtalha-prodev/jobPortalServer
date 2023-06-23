@@ -2,6 +2,7 @@ import AdminModel from "../../model/admin/adminSchema.js";
 import bcrypt from "bcryptjs";
 import { sendToken } from "../../sendToken/sendToken.js";
 
+// login
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
