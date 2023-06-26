@@ -1,10 +1,11 @@
 import express from "express";
-import { login, register } from "../../controllers/jobSekeer/userController.js";
+import { login, register,logout } from "../../controllers/jobSekeer/userController.js";
 
 const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
+router.route("/logout").get(logout);
 
 export default router;
 

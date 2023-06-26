@@ -45,9 +45,9 @@ const companySchema = new Schema({
 
   // company: {
   //   type: Schema.Types.ObjectId,
-  //   ref: "Company",
-  //   // require: true,
-  //   default:"eraflip"
+  //   // ref: "Company",
+  //   require: true,
+  //   default:""
   // },
   title: {
     type: String,

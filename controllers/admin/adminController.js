@@ -84,3 +84,15 @@ export const register = async (req, res) => {
     res.status(500).json({ status: false, error: error });
   }
 };
+
+
+export const logout = async (req, res) => {
+  try {
+    res
+      .status(200)
+      .cookie("token", null, { expires: new Date(Date.now()) })
+      .json({ status: true, message: "user logout!" });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+};

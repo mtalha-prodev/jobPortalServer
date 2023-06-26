@@ -12,9 +12,6 @@ export const sendToken = async (res, user, statusCode, message) => {
       ),
     };
 
-
-    
-
     res
       .status(statusCode)
       .cookie("token", token, options)

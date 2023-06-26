@@ -53,6 +53,8 @@ adminSchema.methods.getJwtToken = function () {
   });
 };
 
+
+
 export default mongoose.model("admin", adminSchema);
 
 // In this admin schema, we define properties such as username, email, password, firstName, lastName, role, and createdOn. The role field specifies the role of the admin and can have values of 'admin' or 'superadmin'.
