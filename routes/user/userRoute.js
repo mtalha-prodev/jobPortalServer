@@ -1,5 +1,9 @@
 import express from "express";
-import { login, register,logout } from "../../controllers/jobSekeer/userController.js";
+import {
+  login,
+  register,
+  logout,
+} from "../../controllers/jobSekeer/userController.js";
 
 const router = express.Router();
 

@@ -1,5 +1,9 @@
 import express from "express";
-import { login, logout, register } from "../../controllers/company/companyController.js";
+import {
+  login,
+  logout,
+  register,
+} from "../../controllers/company/companyController.js";
 
 const router = express.Router();
 

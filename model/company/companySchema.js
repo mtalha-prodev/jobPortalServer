@@ -17,21 +17,21 @@ const companySchema = new Schema({
   password: {
     type: String,
     require: true,
-    select:false,
+    select: false,
   },
   address: {
     type: String,
     require: true,
-    default:''
+    default: "",
   },
   industry: {
     type: String,
     require: true,
-    default:''
+    default: "",
   },
   website: {
     type: String,
-    default:''
+    default: "",
   },
   contactNumber: {
     type: String,
@@ -40,7 +40,7 @@ const companySchema = new Schema({
   active: {
     type: Boolean,
     default: true,
-    default:false
+    default: false,
   },
 
   // company: {
@@ -52,44 +52,44 @@ const companySchema = new Schema({
   title: {
     type: String,
     require: true,
-    default:''
+    default: "",
   },
   description: {
     type: String,
     require: true,
-    default:''
+    default: "",
   },
   requirements: {
     type: [String],
     require: true,
-    default:""
+    default: "",
   },
   location: {
     type: String,
     require: true,
-    default:''
+    default: "",
   },
   employmentType: {
     type: String,
     enum: ["full-time", "part-time", "contract", "internship"],
     require: true,
-    default:'full-time'
+    default: "full-time",
   },
   experienceLevel: {
     type: String,
     enum: ["entry-level", "mid-level", "senior-level"],
     require: true,
-    default:'entry-level'
+    default: "entry-level",
   },
   educationLevel: {
     type: String,
     require: true,
-    default:''
+    default: "",
   },
   skills: {
     type: [String],
     require: true,
-    default:''
+    default: "",
   },
   postedAt: {
     type: Date,
@@ -113,7 +113,6 @@ const companySchema = new Schema({
     default: "Company",
   },
 });
-
 
 companySchema.methods.isMatchPassword = async function (password) {
   return await bcrypt.compare(password, this.password);

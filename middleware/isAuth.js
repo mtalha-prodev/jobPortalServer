@@ -24,7 +24,7 @@ export const isUserAuth = async (req, res, next) => {
   }
 };
 
-// 
+//
 export const isCompAuth = async (req, res, next) => {
   try {
     // get token in cookies to req.cookies
@@ -45,7 +45,6 @@ export const isCompAuth = async (req, res, next) => {
     res.status(500).json({ status: false, message: error.message });
   }
 };
-
 
 export const isAdminAuth = async (req, res, next) => {
   try {

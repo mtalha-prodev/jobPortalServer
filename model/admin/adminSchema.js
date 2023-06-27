@@ -18,7 +18,7 @@ const adminSchema = new Schema({
   password: {
     type: String,
     require: true,
-    select:false
+    select: false,
   },
   firstName: {
     type: String,
@@ -33,9 +33,9 @@ const adminSchema = new Schema({
     enum: ["admin", "superadmin"],
     default: "admin",
   },
-  verified:{
+  verified: {
     type: Boolean,
-    default:false
+    default: false,
   },
   createdAt: {
     type: Date,
@@ -52,8 +52,6 @@ adminSchema.methods.getJwtToken = function () {
     expiresIn: process.env.JWT_COOKIE_EXPIRY * 24 * 60 * 60 * 1000,
   });
 };
-
-
 
 export default mongoose.model("admin", adminSchema);
 
