@@ -1,11 +1,51 @@
 import express from "express";
-import {  login, logout, register,  } from "../../controllers/admin/adminController.js";
+import {
+  login,
+  logout,
+  register,
+} from "../../controllers/admin/adminController.js";
+import { isAdminAuth } from "../../middleware/isAuth.js";
+import {
+  getAllUsers,
+  userDelete,
+  userUpdate,
+} from "../../controllers/admin/adminUserControl.js";
+
+import {
+  getAllCompanies,
+  companyUserDelete,
+  companyUserUpdate,
+} from "../../controllers/admin/adminCompanyControl.js";
 
 const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
+
+// admin view user api url
+// http://127.0.0.1:8080/api/v1/admin/users
+router.route("/users").get(isAdminAuth, getAllUsers);
+
+// admin delete & update user url
+// http://127.0.0.1:8080/api/v1/admin/user/649a130ff59a0687c534ca96
+
+router
+  .route("/user/:_id")
+  .delete(isAdminAuth, userDelete)
+  .put(isAdminAuth, userUpdate);
+
+// admin view companies api url get all companies user
+// http://127.0.0.1:8080/api/v1/admin/companies
+router.route("/companies").get(isAdminAuth, getAllCompanies);
+
+// admin delete & update company url
+// http://127.0.0.1:8080/api/v1/admin/company/649b2baec9459c740b03fb5c
+
+router
+  .route("/company/:_id")
+  .delete(isAdminAuth, companyUserDelete)
+  .put(isAdminAuth, companyUserUpdate);
 
 export default router;
 

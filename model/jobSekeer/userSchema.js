@@ -18,6 +18,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     require: true,
+    select: false,
   },
   contacNumber: {
     type: String,
@@ -26,7 +27,7 @@ const userSchema = new Schema({
   firstName: {
     type: String,
     require: true,
-   default: "",
+    default: "",
   },
   lastName: {
     type: String,
@@ -160,7 +161,6 @@ const userSchema = new Schema({
     default: Date.now,
   },
 });
-
 
 userSchema.methods.isMatchPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
