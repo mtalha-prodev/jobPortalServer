@@ -1,4 +1,4 @@
-import Company from "../../model/company/companySchema.js";
+import { Company, JobPost } from "../../model/company/companySchema.js";
 import bcrypt from "bcryptjs";
 import { sendToken } from "../../sendToken/sendToken.js";
 
@@ -73,5 +73,107 @@ export const logout = async (req, res) => {
       .json({ status: true, message: "user logout!" });
   } catch (error) {
     return res.status(400).json({ status: false, message: error.message });
+  }
+};
+
+// company job posted relationship in schema
+export const jobPost = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "Invalid user" });
+    }
+
+    const post = {
+      company: _id,
+      title: req.body.title,
+      requirements: req.body.requirements,
+      employmentType: req.body.jobType,
+      location: req.body.location,
+      skills: req.body.skills,
+    };
+
+    const job = await JobPost.create(post);
+
+    res.status(201).json({
+      status: true,
+      jobPost: job,
+      message: "Success job posted",
+    });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+};
+
+// get company all job posts
+export const getCompanyPost = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+
+    const jobs = await JobPost.find({ company: _id });
+
+    return res
+      .status(200)
+      .json({ status: true, message: "get company job post", jobs });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
+  }
+};
+
+// update job with filter
+export const updateJob = async (req, res) => {
+  try {
+    const _id = req.user._id;
+    const jobId = req.params.jobId;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+
+    // find by company post
+    const jobPost = await JobPost.find({ company: _id });
+
+    // filter by id
+    let edit = jobPost.filter((item) => item._id == jobId);
+
+    const update = await JobPost.findByIdAndUpdate(edit[0]._id, req.body, {
+      new: true,
+    });
+
+    return res
+      .status(200)
+      .json({ status: true, message: "get company job post", update });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
+  }
+};
+// delete job post with filter
+export const deleteJob = async (req, res) => {
+  try {
+    const _id = req.user._id;
+    const jobId = req.params.jobId;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+
+    // find by company post
+    const jobPost = await JobPost.find({ company: _id });
+
+    // filter by id
+    let remove = jobPost.filter((item) => item._id == jobId);
+
+    remove = await JobPost.findByIdAndDelete(remove[0]._id);
+
+    return res
+      .status(200)
+      .json({ status: true, message: "job delete", remove });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
   }
 };

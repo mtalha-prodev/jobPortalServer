@@ -43,12 +43,31 @@ const companySchema = new Schema({
     default: false,
   },
 
-  // company: {
-  //   type: Schema.Types.ObjectId,
-  //   // ref: "Company",
-  //   require: true,
-  //   default:""
-  // },
+  expiresAt: {
+    type: Date,
+    default: Date.now,
+  },
+  isClosed: {
+    type: Boolean,
+    default: false,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  role: {
+    type: String,
+    default: "Company",
+  },
+});
+
+const jobSchema = new Schema({
+  company: {
+    type: Schema.Types.ObjectId,
+    ref: "Company",
+    require: true,
+  },
+
   title: {
     type: String,
     require: true,
@@ -91,26 +110,10 @@ const companySchema = new Schema({
     require: true,
     default: "",
   },
+
   postedAt: {
     type: Date,
     default: Date.now,
-  },
-  expiresAt: {
-    type: Date,
-    require: true,
-    default: Date.now,
-  },
-  isClosed: {
-    type: Boolean,
-    default: false,
-  },
-  verified: {
-    type: Boolean,
-    default: false,
-  },
-  role: {
-    type: String,
-    default: "Company",
   },
 });
 
@@ -119,9 +122,10 @@ companySchema.methods.isMatchPassword = async function (password) {
 };
 
 companySchema.methods.getJwtToken = function () {
-  return jwt.sign({ _id: this._id }, "process.env.JWT_SECRET", {
+  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_COOKIE_EXPIRY * 24 * 60 * 60 * 1000,
   });
 };
 
-export default mongoose.model("Company", companySchema);
+export const Company = mongoose.model("company", companySchema);
+export const JobPost = mongoose.model("companyJobPost", jobSchema);

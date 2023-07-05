@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import Users from "../model/jobSekeer/userSchema.js";
 import Admin from "../model/admin/adminSchema.js";
-import Company from "../model/company/companySchema.js";
+import { Company } from "../model/company/companySchema.js";
 
 export const isUserAuth = async (req, res, next) => {
   try {
@@ -9,9 +9,7 @@ export const isUserAuth = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-      return res
-        .status(403)
-        .json({ status: false, message: "user is not login" });
+      return res.status(403).json({ status: false, message: "user not login" });
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
@@ -31,15 +29,14 @@ export const isCompAuth = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-      return res
-        .status(403)
-        .json({ status: false, message: "user is not login" });
+      return res.status(403).json({ status: false, message: "user not login" });
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log(token);
 
+    // console.log(decode._id);
     req.user = await Company.findById(decode._id);
-
     next();
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });
@@ -52,9 +49,7 @@ export const isAdminAuth = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-      return res
-        .status(403)
-        .json({ status: false, message: "user is not login" });
+      return res.status(403).json({ status: false, message: "user not login" });
     }
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);

@@ -1,4 +1,4 @@
-import Company from "../../model/company/companySchema.js";
+import { Company } from "../../model/company/companySchema.js";
 
 // get all company users show in dashboard
 
@@ -10,12 +10,12 @@ export const getAllCompanies = async (req, res) => {
     if (!companies) {
       return res
         .status(404)
-        .json({ status: false, message: "Users not found!" });
+        .json({ status: false, message: "Companies not found!" });
     }
 
     return res.status(200).json({
       status: true,
-      message: "Get all Company Success!",
+      message: "Get all Companies Success!",
       companies: companies,
     });
   } catch (error) {
@@ -49,10 +49,10 @@ export const companyUserDelete = async (req, res) => {
 export const companyUserUpdate = async (req, res) => {
   try {
     const { _id } = req.params;
-    console.log(_id);
+    // console.log(req.user);
 
     let user = await Company.findById(_id);
-    console.log(user);
+    // console.log(user);
 
     if (!user) {
       return res

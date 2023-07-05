@@ -124,8 +124,7 @@ const userSchema = new Schema({
       },
       applicationDate: {
         type: Date,
-        require: true,
-        default: "",
+        default: Date.now,
       },
       status: {
         type: String,
@@ -143,8 +142,7 @@ const userSchema = new Schema({
       },
       savedDate: {
         type: Date,
-        require: true,
-        default: "",
+        default: Date.now,
       },
     },
   ],

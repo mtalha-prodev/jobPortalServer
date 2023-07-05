@@ -50,11 +50,12 @@ router
 export default router;
 
 // User Management:
-
+// done
 // Route: /admin/users
 // Action: Retrieve a list of all users or perform user management operations (e.g., view, edit, delete).
 // Company Management:
 
+// done
 // Route: /admin/companies
 // Action: Retrieve a list of all companies or perform company management operations (e.g., view, edit, delete).
 // Job Post Management:
@@ -67,10 +68,12 @@ export default router;
 // Action: Retrieve a list of all job application reviews or perform review management operations (e.g., view, delete).
 // User Details:
 
+// done
 // Route: /admin/users/:userId
 // Action: Retrieve detailed information about a specific user.
 // Company Details:
 
+// done
 // Route: /admin/companies/:companyId
 // Action: Retrieve detailed information about a specific company.
 // Job Post Details:
@@ -83,22 +86,27 @@ export default router;
 // Action: Retrieve detailed information about a specific review.
 // Edit User:
 
+// done
 // Route: /admin/users/:userId/edit
 // Action: Update the information of a specific user.
 // Edit Company:
 
+// done
 // Route: /admin/companies/:companyId/edit
 // Action: Update the information of a specific company.
 // Edit Job Post:
 
+// done
 // Route: /admin/jobs/:jobId/edit
 // Action: Update the information of a specific job post.
 // Delete User:
 
+// done
 // Route: /admin/users/:userId/delete
 // Action: Delete a specific user.
 // Delete Company:
 
+// done
 // Route: /admin/companies/:companyId/delete
 // Action: Delete a specific company.
 // Delete Job Post:

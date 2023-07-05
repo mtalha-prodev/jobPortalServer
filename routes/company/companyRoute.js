@@ -1,15 +1,31 @@
 import express from "express";
 import {
+  getCompanyPost,
+  jobPost,
   login,
   logout,
   register,
+  updateJob,
+  deleteJob,
 } from "../../controllers/company/companyController.js";
+import { isCompAuth } from "../../middleware/isAuth.js";
 
 const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
+
+// jobs posted
+router.route("/jobs").post(isCompAuth, jobPost);
+// get posted jobs
+router.route("/jobs").get(isCompAuth, getCompanyPost);
+
+// delete and update job
+router
+  .route("/job/:jobId")
+  .put(isCompAuth, updateJob)
+  .delete(isCompAuth, deleteJob);
 
 export default router;
 

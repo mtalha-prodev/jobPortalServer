@@ -2,7 +2,7 @@ import AdminModel from "../../model/admin/adminSchema.js";
 import bcrypt from "bcryptjs";
 import { sendToken } from "../../sendToken/sendToken.js";
 import Users from "../../model/jobSekeer/userSchema.js";
-import Company from "../../model/company/companySchema.js";
+import { Company } from "../../model/company/companySchema.js";
 
 // login admin
 export const login = async (req, res) => {
