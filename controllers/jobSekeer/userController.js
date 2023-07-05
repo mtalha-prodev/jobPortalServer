@@ -75,3 +75,70 @@ export const logout = async (req, res) => {
     return res.status(400).json({ status: false, message: error.message });
   }
 };
+
+// get company details
+export const getUser = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ status: false, message: "user not found!" });
+    }
+
+    const _id = req.user._id;
+
+    // console.log(req.user.email);
+    const user = await Users.findById({ _id });
+
+    // console.log(user);
+    res.status(404).json({ status: false, user, message: "user profile" });
+  } catch (error) {
+    res.status(404).json({ status: false, message: error.message });
+  }
+};
+
+// update company details
+export const updateUser = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    if (!_id) {
+      return res.status(400).json({ status: true, message: " user not found" });
+    }
+
+    let update = await Users.find({ _id });
+
+    // console.log(update[0]._id);
+
+    update = await Users.findByIdAndUpdate(update[0]._id, req.body, {
+      new: true,
+    });
+
+    res
+      .status(200)
+      .json({ status: true, update, message: "User updated successfully" });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+};
+// company account delete
+export const deleteUser = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    if (!_id) {
+      return res.status(400).json({ status: true, message: "user not found" });
+    }
+
+    let del = await Users.findById({ _id });
+    console.log(del);
+
+    del = await Users.findByIdAndDelete(del._id);
+
+    res
+      .status(200)
+      .json({ status: true, message: "User deleted successfully", del });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+};

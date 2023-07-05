@@ -3,7 +3,11 @@ import {
   login,
   register,
   logout,
+  getUser,
+  updateUser,
+  deleteUser,
 } from "../../controllers/jobSekeer/userController.js";
+import { isUserAuth } from "../../middleware/isAuth.js";
 
 const router = express.Router();
 
@@ -11,14 +15,21 @@ router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
 
+router.route("/").get(isUserAuth, getUser);
+router
+  .route("/:_id")
+  .put(isUserAuth, updateUser)
+  .delete(isUserAuth, deleteUser);
+
 export default router;
 
+// done
 // User Registration:
-
 // Route: POST /users/register
 // Action: Create a new user account in the database.
 // User Login:
 
+// done
 // Route: POST /users/login
 // Action: Authenticate user credentials and generate a session or JSON Web Token (JWT) for subsequent requests.
 // User Profile:

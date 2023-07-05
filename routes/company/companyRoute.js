@@ -7,6 +7,9 @@ import {
   register,
   updateJob,
   deleteJob,
+  getCompany,
+  updateCompany,
+  deleteCompany,
 } from "../../controllers/company/companyController.js";
 import { isCompAuth } from "../../middleware/isAuth.js";
 
@@ -16,8 +19,15 @@ router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
 
+// GET Company details
+router.route("/").get(isCompAuth, getCompany);
+router
+  .route("/:_id")
+  .put(isCompAuth, updateCompany)
+  .delete(isCompAuth, deleteCompany);
+
 // jobs posted
-router.route("/jobs").post(isCompAuth, jobPost);
+router.route("/job").post(isCompAuth, jobPost);
 // get posted jobs
 router.route("/jobs").get(isCompAuth, getCompanyPost);
 
@@ -29,25 +39,46 @@ router
 
 export default router;
 
-// Create a Job Post:
+// done
+// HTTP Method: PUT
+// Route: /api/company
+// Action: Update the company's information.
+// Request body: Updated company details.
+// Get Company Profile:
 
+// done
+// HTTP Method: GET
+// Route: /api/company
+// Action: Retrieve the company's profile information.
+// Delete Company Account:
+
+// done
+// HTTP Method: DELETE
+// Route: /api/company
+// Action: Delete the company's account and associated data.
+
+// done
+// Create a Job Post:
 // HTTP Method: POST
 // Route: /api/company/jobs
 // Action: Create a new job post for the company.
 // Request body: Job post details (title, description, requirements, location, etc.)
 // Update a Job Post:
 
+// done
 // HTTP Method: PUT
 // Route: /api/company/jobs/:jobId
 // Action: Update an existing job post by its ID.
 // Request body: Updated job post details.
 // Delete a Job Post:
 
+// done
 // HTTP Method: DELETE
 // Route: /api/company/jobs/:jobId
 // Action: Delete a job post by its ID.
 // Get Company's Job Posts:
 
+// done
 // HTTP Method: GET
 // Route: /api/company/jobs
 // Action: Retrieve all job posts associated with the company.
@@ -70,18 +101,3 @@ export default router;
 // Action: Update the status of a job application (e.g., shortlist, reject, hire).
 // Request body: Updated application status.
 // Update Company Information:
-
-// HTTP Method: PUT
-// Route: /api/company
-// Action: Update the company's information.
-// Request body: Updated company details.
-// Get Company Profile:
-
-// HTTP Method: GET
-// Route: /api/company
-// Action: Retrieve the company's profile information.
-// Delete Company Account:
-
-// HTTP Method: DELETE
-// Route: /api/company
-// Action: Delete the company's account and associated data.
