@@ -6,6 +6,12 @@ import {
   getUser,
   updateUser,
   deleteUser,
+  changePassword,
+  searchJobs,
+  applyJobs,
+  saveJobs,
+  getSaveJobs,
+  getApplyJobs,
 } from "../../controllers/jobSekeer/userController.js";
 import { isUserAuth } from "../../middleware/isAuth.js";
 
@@ -21,6 +27,19 @@ router
   .put(isUserAuth, updateUser)
   .delete(isUserAuth, deleteUser);
 
+// change password
+router.route("/change_password/:_id").get(isUserAuth, changePassword);
+// search jobs
+router.route("/jobs/search/:key").get(isUserAuth, searchJobs);
+// apply jobs
+router.route("/job/:jobId/apply").post(isUserAuth, applyJobs);
+// save jobs post
+router.route("/job/:jobId/save").post(isUserAuth, saveJobs);
+// save jobs get
+router.route("/save_jobs").get(isUserAuth, getSaveJobs);
+// applied jobs get
+router.route("/applied-jobs").get(isUserAuth, getApplyJobs);
+
 export default router;
 
 // done
@@ -32,39 +51,47 @@ export default router;
 // done
 // Route: POST /users/login
 // Action: Authenticate user credentials and generate a session or JSON Web Token (JWT) for subsequent requests.
-// User Profile:
 
+// done
+// User Profile:
 // Route: GET /users/profile
 // Action: Fetch and display the user's profile information.
-// Edit User Profile:
 
+// done
+// Edit User Profile:
 // Route: PUT /users/profile
 // Action: Update the user's profile information in the database.
-// Change Password:
 
+// done
+// Change Password:
 // Route: PUT /users/password
 // Action: Change the user's password in the database.
-// Upload Profile Picture:
 
+// Upload Profile Picture:
 // Route: POST /users/profile/picture
 // Action: Upload and update the user's profile picture in the database or storage.
-// Search Jobs:
 
+// done
+// Search Jobs:
 // Route: GET /jobs/search
 // Action: Retrieve job listings based on search criteria, such as keywords, location, or job category.
-// Apply to Job:
 
+// done
+// Apply to Job:
 // Route: POST /jobs/:jobId/apply
 // Action: Submit a job application for a specific job listing.
-// Save Job:
 
+// done
+// Save Job:
 // Route: POST /jobs/:jobId/save
 // Action: Save a job listing for future reference or application.
-// View Applied Jobs:
 
+//
+// View Applied Jobs:
 // Route: GET /users/applied-jobs
 // Action: Retrieve a list of jobs to which the user has applied.
-// View Saved Jobs:
 
+//
+// View Saved Jobs:
 // Route: GET /users/saved-jobs
 // Action: Retrieve a list of jobs that the user has saved.
