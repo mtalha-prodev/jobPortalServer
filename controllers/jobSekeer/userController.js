@@ -84,13 +84,13 @@ export const logout = async (req, res) => {
 // get company details
 export const getUser = async (req, res) => {
   try {
-    if (!req.user) {
-      return res
-        .status(401)
-        .json({ status: false, message: "user not found!" });
-    }
+    // if (!req.user) {
+    //   return res
+    //     .status(401)
+    //     .json({ status: false, message: "user not found!" });
+    // }
 
-    const _id = req.user._id;
+    // const _id = req.user._id;
 
     // console.log(req.user.email);
     // const user = await Users.findById({ _id });
