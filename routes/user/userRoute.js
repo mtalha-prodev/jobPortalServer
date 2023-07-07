@@ -21,7 +21,7 @@ router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
 
-router.route("/").get(isUserAuth, getUser);
+router.route("/").get(getUser);
 router
   .route("/:_id")
   .put(isUserAuth, updateUser)
