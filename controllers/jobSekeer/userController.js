@@ -186,6 +186,7 @@ export const deleteUser = async (req, res) => {
 export const searchJobs = async (req, res) => {
   try {
     console.log(req.params.key);
+    // search for jobs
     const jobs = await JobPost.find({
       $or: [
         { title: { $regex: req.params.key } },
