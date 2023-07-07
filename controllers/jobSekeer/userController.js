@@ -93,7 +93,8 @@ export const getUser = async (req, res) => {
     const _id = req.user._id;
 
     // console.log(req.user.email);
-    const user = await Users.findById({ _id });
+    // const user = await Users.findById({ _id });
+    const user = await Users.find();
 
     // console.log(user);
     res.status(404).json({ status: false, user, message: "user profile" });
