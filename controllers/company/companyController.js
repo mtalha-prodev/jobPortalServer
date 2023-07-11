@@ -1,6 +1,7 @@
 import { Company, JobPost } from "../../model/company/companySchema.js";
 import bcrypt from "bcryptjs";
 import { sendToken } from "../../sendToken/sendToken.js";
+import Users from "../../model/jobSekeer/userSchema.js";
 
 export const register = async (req, res) => {
   try {
@@ -90,7 +91,9 @@ export const getCompany = async (req, res) => {
     const user = await Company.findById({ _id });
 
     // console.log(user);
-    res.status(404).json({ status: false, user, message: "user get" });
+    res
+      .status(404)
+      .json({ status: false, user, message: "get user successfuly!" });
   } catch (error) {
     res.status(404).json({ status: false, message: error.message });
   }
@@ -105,17 +108,19 @@ export const updateCompany = async (req, res) => {
       return res.status(400).json({ status: true, message: " user not found" });
     }
 
-    let update = await Company.find({ _id });
+    let user = await Company.findById({ _id: req.params._id });
 
-    // console.log(update[0]._id);
+    if (!user) {
+      return res.status(404).json({ status: true, message: " user not found" });
+    }
 
-    update = await Company.findByIdAndUpdate(update[0]._id, req.body, {
+    user = await Company.findByIdAndUpdate({ _id: req.params._id }, req.body, {
       new: true,
     });
 
     res
       .status(200)
-      .json({ status: true, update, message: "Company updated successfully" });
+      .json({ status: true, user, message: "Company updated successfully" });
   } catch (error) {
     return res.status(400).json({ status: false, message: error.message });
   }
@@ -129,10 +134,15 @@ export const deleteCompany = async (req, res) => {
       return res.status(400).json({ status: true, message: "user not found" });
     }
 
-    let del = await Company.findById({ _id });
-    console.log(del);
+    let del = await Company.findById({ _id: req.params._id });
+    // console.log(del);
+    if (!del) {
+      return res
+        .status(404)
+        .json({ status: true, message: "Company not found!" });
+    }
 
-    del = await Company.findByIdAndDelete(del._id);
+    del = await Company.findByIdAndDelete({ _id: req.params._id });
 
     res
       .status(200)
@@ -241,6 +251,123 @@ export const deleteJob = async (req, res) => {
     return res
       .status(200)
       .json({ status: true, message: "job delete", remove });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
+  }
+};
+
+//  ++++++ users applying jobs details
+
+// get all applications jobs details
+export const usersApply = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+
+    const jobs = await JobPost.findById({ _id: req.params.jobId });
+
+    const { userAppliedJob } = jobs;
+
+    return res
+      .status(200)
+      .json({ status: true, message: "get company job post", userAppliedJob });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
+  }
+};
+
+// get all applications jobs details
+// http://127.0.0.1:8080/api/v1/company/jobs/:jobId/applications/:applicationId
+export const getSingleApply = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+
+    const jobs = await JobPost.findById({ _id: req.params.jobId });
+
+    if (!jobs) {
+      return res
+        .status(400)
+        .json({ status: false, message: " jobs not found" });
+    }
+
+    const { userAppliedJob } = jobs;
+
+    const user = userAppliedJob.find(
+      (job) => job.userId == req.params.applicationId
+    );
+
+    console.log(user.status);
+
+    return res
+      .status(200)
+      .json({ status: true, message: "get single application job", user });
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message });
+  }
+};
+
+// change status application user details
+// http://127.0.0.1:8080/api/v1/company/jobs/:jobId/applications/:applicationId/status
+export const statusUpdateApply = async (req, res) => {
+  try {
+    const _id = req.user._id;
+    const { jobId } = req.params;
+
+    if (!_id) {
+      return res.status(400).json({ status: false, message: "User not found" });
+    }
+
+    const applyJobs = await JobPost.findById(jobId);
+
+    if (!applyJobs) {
+      return res
+        .status(400)
+        .json({ status: false, message: " jobs not found" });
+    }
+
+    // find single user applied jobs
+    const jobs = applyJobs.userAppliedJob.find(
+      (job) => job.userId == req.params.applicationId
+    );
+
+    // console.log(jobs._id);
+
+    applyJobs.userAppliedJob.filter((job) => {
+      // filter jobs detail and update status
+      if (job.userId == req.params.applicationId && jobs._id == job._id) {
+        // only spacific user update status
+        job.status = req.body.status;
+      }
+    });
+
+    // find user applied jobs to change status
+    const user = await Users.findById(req.params.applicationId);
+
+    const userApply = user.appliedJobs.find((user) => user.jobId == jobId);
+
+    user.appliedJobs.filter((user) => {
+      if (user.jobId == jobId) {
+        user.status = req.body.status;
+        console.log(user);
+      }
+    });
+
+    // console.log(userApply.jobId);
+    // user status change
+    await user.save();
+    // job company  status change
+    await applyJobs.save();
+
+    return res
+      .status(200)
+      .json({ status: true, message: "application job status update ", jobs });
   } catch (error) {
     res.status(400).json({ status: false, message: error.message });
   }

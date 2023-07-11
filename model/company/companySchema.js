@@ -110,6 +110,31 @@ const jobSchema = new Schema({
     require: true,
     default: "",
   },
+  // user applications details
+  userAppliedJob: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        require: true,
+      },
+      name: String,
+      email: String,
+      location: String,
+      education: [],
+      experience: [],
+      skills: [String],
+      status: {
+        type: String,
+        enum: ["applied", "shortlisted", "rejected"],
+        default: "applied",
+      },
+      applyAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 
   postedAt: {
     type: Date,

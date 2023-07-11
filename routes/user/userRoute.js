@@ -86,12 +86,12 @@ export default router;
 // Route: POST /jobs/:jobId/save
 // Action: Save a job listing for future reference or application.
 
-//
+// done
 // View Applied Jobs:
 // Route: GET /users/applied-jobs
 // Action: Retrieve a list of jobs to which the user has applied.
 
-//
+// done
 // View Saved Jobs:
 // Route: GET /users/saved-jobs
 // Action: Retrieve a list of jobs that the user has saved.

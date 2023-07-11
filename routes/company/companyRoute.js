@@ -10,6 +10,9 @@ import {
   getCompany,
   updateCompany,
   deleteCompany,
+  usersApply,
+  getSingleApply,
+  statusUpdateApply,
 } from "../../controllers/company/companyController.js";
 import { isCompAuth } from "../../middleware/isAuth.js";
 
@@ -36,6 +39,16 @@ router
   .route("/job/:jobId")
   .put(isCompAuth, updateJob)
   .delete(isCompAuth, deleteJob);
+
+// delete and update job
+router.route("/jobs/:jobId/applications").get(isCompAuth, usersApply);
+router
+  .route("/jobs/:jobId/applications/:applicationId")
+  .get(isCompAuth, getSingleApply);
+// update applied applications status
+router
+  .route("/jobs/:jobId/applications/:applicationId/status")
+  .post(isCompAuth, statusUpdateApply);
 
 export default router;
 
@@ -70,32 +83,35 @@ export default router;
 // Route: /api/company/jobs/:jobId
 // Action: Update an existing job post by its ID.
 // Request body: Updated job post details.
-// Delete a Job Post:
 
 // done
+// Delete a Job Post:
 // HTTP Method: DELETE
 // Route: /api/company/jobs/:jobId
 // Action: Delete a job post by its ID.
-// Get Company's Job Posts:
 
 // done
+// Get Company's Job Posts:
 // HTTP Method: GET
 // Route: /api/company/jobs
 // Action: Retrieve all job posts associated with the company.
-// View Job Applications:
 
+// done
+// View Job Applications:
 // HTTP Method: GET
 // Route: /api/company/jobs/:jobId/applications
 // Action: Retrieve all applications for a specific job post.
 // Response: List of job applications.
-// View Single Job Application:
 
+// done
+// View Single Job Application:
 // HTTP Method: GET
 // Route: /api/company/jobs/:jobId/applications/:applicationId
 // Action: Retrieve details of a single job application.
 // Response: Job application details.
-// Update Job Application Status:
 
+// done
+// Update Job Application Status:
 // HTTP Method: PUT
 // Route: /api/company/jobs/:jobId/applications/:applicationId/status
 // Action: Update the status of a job application (e.g., shortlist, reject, hire).

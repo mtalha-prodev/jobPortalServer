@@ -204,16 +204,34 @@ export const searchJobs = async (req, res) => {
   }
 };
 
-// apply user jobs
+// apply user jobs only one time
 export const applyJobs = async (req, res) => {
   try {
     const { jobId } = req.params;
-    const { name, email, location } = req.body;
+
+    if (!req.user) {
+      return res
+        .status(400)
+        .json({ status: false, message: " user not authorized" });
+    }
 
     // find user to apply jobs
     const user = await Users.findById(req.user._id);
-    const { appliedJobs } = user;
-    // console.log(appliedJobs);
+
+    // user applied jobs send notification to company post job
+    const jobPost = await JobPost.findById(jobId);
+
+    // find value to if allready exists to apply arry of objects
+    let alreadyApply = jobPost.userAppliedJob.find(
+      (find) => find.userId.toString() === user._id.toString()
+    );
+    // console.log(alreadyApply);
+
+    if (alreadyApply) {
+      return res
+        .status(403)
+        .json({ status: false, message: "already applied" });
+    }
 
     // jobId push user applied jobs
     user.appliedJobs.push({
@@ -222,9 +240,25 @@ export const applyJobs = async (req, res) => {
       applicationDate: new Date(Date.now()),
     });
 
+    // same detail to company get user applied jobs details
+    jobPost.userAppliedJob.push({
+      userId: user._id,
+      name: user.firstName + " " + user.lastName,
+      email: user.email,
+      location: user.location,
+      education: user.education,
+      experience: user.experience,
+      skills: user.skills,
+      status: "applied",
+      applyAt: new Date(Date.now()),
+    });
+
     // console.log(jobId);
     // console.log(name, email, location);
 
+    // company side save user application detail
+    await jobPost.save();
+    // user side save job detail
     await user.save();
 
     res.status(200).json({
