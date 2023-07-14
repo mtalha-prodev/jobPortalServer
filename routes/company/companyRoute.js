@@ -13,8 +13,10 @@ import {
   usersApply,
   getSingleApply,
   statusUpdateApply,
+  uploadProfile,
 } from "../../controllers/company/companyController.js";
 import { isCompAuth } from "../../middleware/isAuth.js";
+import { uploadFile } from "../../middleware/storage.js";
 
 const router = express.Router();
 
@@ -29,6 +31,8 @@ router
   .put(isCompAuth, updateCompany)
   .delete(isCompAuth, deleteCompany);
 
+// upload profile pic
+router.route("/profile").post(isCompAuth, uploadFile, uploadProfile);
 // jobs posted
 router.route("/job").post(isCompAuth, jobPost);
 // get posted jobs
@@ -69,6 +73,11 @@ export default router;
 // HTTP Method: DELETE
 // Route: /api/company
 // Action: Delete the company's account and associated data.
+
+// done
+// Upload Profile Picture:
+// Route: POST /company/profile
+// Action: Upload and update the company profile picture in the database or storage.
 
 // done
 // Create a Job Post:

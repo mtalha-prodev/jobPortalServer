@@ -12,8 +12,10 @@ import {
   saveJobs,
   getSaveJobs,
   getApplyJobs,
+  uploadProfile,
 } from "../../controllers/jobSekeer/userController.js";
 import { isUserAuth } from "../../middleware/isAuth.js";
+import { uploadFile } from "../../middleware/storage.js";
 
 const router = express.Router();
 
@@ -26,6 +28,9 @@ router
   .route("/:_id")
   .put(isUserAuth, updateUser)
   .delete(isUserAuth, deleteUser);
+
+// profile pic
+router.route("/profile").post(isUserAuth, uploadFile, uploadProfile);
 
 // change password
 router.route("/change_password/:_id").get(isUserAuth, changePassword);
@@ -67,6 +72,7 @@ export default router;
 // Route: PUT /users/password
 // Action: Change the user's password in the database.
 
+// done
 // Upload Profile Picture:
 // Route: POST /users/profile/picture
 // Action: Upload and update the user's profile picture in the database or storage.

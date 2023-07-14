@@ -154,6 +154,10 @@ const userSchema = new Schema({
     type: String,
     default: "user",
   },
+  avatar: {
+    type: String,
+    require: true,
+  },
   createAt: {
     type: Date,
     default: Date.now,

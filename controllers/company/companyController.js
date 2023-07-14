@@ -76,6 +76,22 @@ export const logout = async (req, res) => {
     return res.status(400).json({ status: false, message: error.message });
   }
 };
+
+// upload profile pic
+export const uploadProfile = async (req, res) => {
+  try {
+    const profile = req.file;
+
+    // const _id = req.user._id;
+
+    res
+      .status(404)
+      .json({ status: false, message: "User profile pic upload", profile });
+  } catch (error) {
+    res.status(404).json({ status: false, message: error.message });
+  }
+};
+
 // get company details
 export const getCompany = async (req, res) => {
   try {

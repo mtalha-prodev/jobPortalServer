@@ -103,6 +103,21 @@ export const getUser = async (req, res) => {
   }
 };
 
+// upload profile pic
+export const uploadProfile = async (req, res) => {
+  try {
+    const profile = req.file;
+
+    // const _id = req.user._id;
+
+    res
+      .status(404)
+      .json({ status: false, message: "User profile pic upload", profile });
+  } catch (error) {
+    res.status(404).json({ status: false, message: error.message });
+  }
+};
+
 // update company details
 export const updateUser = async (req, res) => {
   try {
