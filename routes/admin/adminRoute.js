@@ -1,8 +1,11 @@
 import express from "express";
 import {
+  deleteJob,
+  getAllJobs,
   login,
   logout,
   register,
+  singleJob,
 } from "../../controllers/admin/adminController.js";
 import { isAdminAuth } from "../../middleware/isAuth.js";
 import {
@@ -47,6 +50,13 @@ router
   .delete(isAdminAuth, companyUserDelete)
   .put(isAdminAuth, companyUserUpdate);
 
+// http://127.0.0.1:8080/api/v1/admin/jobs
+router.route("/jobs").get(isAdminAuth, getAllJobs);
+// http://127.0.0.1:8080/api/v1/admin/jobs/:jobId
+router.route("/jobs/:jobId").get(isAdminAuth, singleJob);
+// http://127.0.0.1:8080/api/v1/admin/jobs/:jobId/delete
+router.route("/jobs/:jobId/delete").delete(isAdminAuth, deleteJob);
+
 export default router;
 
 // done
@@ -58,32 +68,6 @@ export default router;
 // Company Management:
 // Route: /admin/companies
 // Action: Retrieve a list of all companies or perform company management operations (e.g., view, edit, delete).
-
-// Job Post Management:
-// Route: /admin/jobs
-// Action: Retrieve a list of all job posts or perform job post management operations (e.g., view, edit, delete).
-
-// Review Management:
-// Route: /admin/reviews
-// Action: Retrieve a list of all job application reviews or perform review management operations (e.g., view, delete).
-
-// done
-// User Details:
-// Route: /admin/users/:userId
-// Action: Retrieve detailed information about a specific user.
-
-// done
-// Company Details:
-// Route: /admin/companies/:companyId
-// Action: Retrieve detailed information about a specific company.
-// Job Post Details:
-
-// Route: /admin/jobs/:jobId
-// Action: Retrieve detailed information about a specific job post.
-// Review Details:
-
-// Route: /admin/reviews/:reviewId
-// Action: Retrieve detailed information about a specific review.
 
 // done
 // Edit User:
@@ -106,13 +90,42 @@ export default router;
 // Action: Delete a specific user.
 
 // done
+// User Details:
+// Route: /admin/users/:userId
+// Action: Retrieve detailed information about a specific user.
+
+// done
+// Company Details:
+// Route: /admin/companies/:companyId
+// Action: Retrieve detailed information about a specific company.
+
+// done
 // Delete Company:
 // Route: /admin/companies/:companyId/delete
 // Action: Delete a specific company.
 
+// done
+// Job Post Details:
+// Job Post Management:
+// Route: /admin/jobs
+// Action: Retrieve a list of all job posts or perform job post management operations (e.g., view, edit, delete).
+
+// done
+// Route: /admin/jobs/:jobId
+// Action: Retrieve detailed information about a specific job post.
+// Review Details:
+
+// done
 // Delete Job Post:
 // Route: /admin/jobs/:jobId/delete
 // Action: Delete a specific job post.
+
+// Route: /admin/reviews/:reviewId
+// Action: Retrieve detailed information about a specific review.
+
+// Review Management:
+// Route: /admin/reviews
+// Action: Retrieve a list of all job application reviews or perform review management operations (e.g., view, delete).
 
 // Delete Review:
 // Route: /admin/reviews/:reviewId/delete
