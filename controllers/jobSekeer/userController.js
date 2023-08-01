@@ -111,7 +111,7 @@ export const uploadProfile = async (req, res) => {
     // const _id = req.user._id;
 
     res
-      .status(404)
+      .status(200)
       .json({ status: false, message: "User profile pic upload", profile });
   } catch (error) {
     res.status(404).json({ status: false, message: error.message });
